@@ -7,8 +7,9 @@ function App() {
   const [error, setError] = useState(null);
 
   // Zastąp swoim kluczem lub użyj zmiennej środowiskowej
-  const API_KEY = process.env.API_KEY;
-  const URL = `https://googleapis.com{API_KEY}`;
+  const API_KEY = import.meta.env.VITE_API_KEY;
+
+  const URL = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=20&key=${API_KEY}`;
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -18,7 +19,7 @@ function App() {
           throw new Error("Problem z pobraniem danych z YouTube API");
         }
         const data = await response.json();
-        setVideos(data.items); // Filmy znajdują się w tablicy 'items'
+        setVideos(data.items);
       } catch (err) {
         setError(err.message);
       } finally {
